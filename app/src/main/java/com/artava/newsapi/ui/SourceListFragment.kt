@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.artava.newsapi.R
 
-class SourceList : Fragment() {
+class SourceListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class SourceList : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SourceList().apply {
+            SourceListFragment().apply {
                 arguments = Bundle().apply {
                 }
             }
