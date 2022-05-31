@@ -14,7 +14,7 @@ class SourceRecyclerViewAdapter(private val sourceList: List<SourceModel>) :
         RecyclerView.ViewHolder(binding.root) {
         val tvDesc: TextView = binding.tvDescr
         val tvTitle: TextView = binding.tvTitle
-
+        val tvLang: TextView = binding.tvLang
 
     }
 
@@ -30,6 +30,7 @@ class SourceRecyclerViewAdapter(private val sourceList: List<SourceModel>) :
         val item = sourceList[position]
         holder.tvDesc.text = item.description
         holder.tvTitle.text = item.name
+        holder.tvLang.text = item.country
     }
 
     override fun getItemCount(): Int {
