@@ -14,7 +14,7 @@ import com.artava.newsapi.MainRepository
 import com.artava.newsapi.R
 import com.artava.newsapi.adapter.SourceRecyclerViewAdapter
 import com.artava.newsapi.databinding.FragmentSourceListBinding
-import com.artava.newsapi.model.SourceResponce
+import com.artava.newsapi.service.Result
 import com.artava.newsapi.service.RetrofitService
 import com.artava.newsapi.viewmodel.SouceViewModelFactory
 import com.artava.newsapi.viewmodel.SourceViewModel
@@ -34,7 +34,7 @@ class SourceListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSourceListBinding.inflate(inflater, container, false)
 
@@ -47,14 +47,27 @@ class SourceListFragment : Fragment() {
             this,
             SouceViewModelFactory(MainRepository(retrofitService))
         )[SourceViewModel::class.java]
+
         viewModel.text.observe(viewLifecycleOwner, Observer {
             view.findViewById<TextView>(R.id.editTextTextPersonName).text = it
         })
-        viewModel.sourceList.observe(viewLifecycleOwner, Observer { response ->
-            if (response.status == "ok") {
-                binding.progressBar.isVisible = false
-                adapter = SourceRecyclerViewAdapter(response.sources)
-                view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
+
+        viewModel.sourceList.observe(viewLifecycleOwner, Observer { result ->
+            when(result){
+                is Result.Success -> {
+                    binding.progressBar.isVisible = false
+                    if (result.data?.sources != null) {
+                        adapter = SourceRecyclerViewAdapter(result.data.sources)
+                    }
+                    view.findViewById<RecyclerView>(R.id.recycler_view).adapter = adapter
+                }
+                is Result.Loading -> {
+                    println(result)
+                }
+                is Result.Error -> {
+                    println(result.exception)
+                }
+                else -> {}
             }
         })
     }

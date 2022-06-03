@@ -10,7 +10,6 @@ import com.artava.newsapi.ui.SourceListFragment
 import com.artava.newsapi.ui.TimeLineFragment
 import com.artava.newsapi.viewmodel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 class MainActivity : AppCompatActivity() {
     lateinit var bottomNav: BottomNavigationView
     lateinit var viewmodel: MainViewModel
@@ -25,12 +24,10 @@ class MainActivity : AppCompatActivity() {
         viewmodel.fragment.observe(this, Observer { fragment ->
             loadFragment(fragment)
         })
-        //loadFragment(TimeLineFragment())
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_timeline -> {
                     viewmodel.changeFragment(TimeLineFragment())
-
                     true
                 }
                 R.id.nav_source -> {
@@ -48,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()

@@ -10,3 +10,9 @@ data class ArticleModel(
     val publishedAt: String,
     val content: String
 )
+
+data class ArticleResponse(
+    val status: String,
+    val totalResults: String,
+    val articles: List<ArticleModel>
+)

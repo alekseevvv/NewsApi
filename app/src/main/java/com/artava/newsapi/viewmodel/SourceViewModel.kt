@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artava.newsapi.MainRepository
 import com.artava.newsapi.model.SourceResponce
+import com.artava.newsapi.service.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SourceViewModel (private val repository: MainRepository): ViewModel() {
@@ -20,11 +22,23 @@ class SourceViewModel (private val repository: MainRepository): ViewModel() {
     }
     val text: LiveData<String> = _text
 
-    private val _sourceList = MutableLiveData<SourceResponce>()
-    val sourceList: LiveData<SourceResponce> = _sourceList
+    private val _sourceList = MutableLiveData<Result<SourceResponce?>?>()
+    val sourceList: LiveData<Result<SourceResponce?>?> = _sourceList
 
-     fun getAllMovies() = viewModelScope.launch{
-        val response = repository.getAllMovies()
-        _sourceList.postValue(response)
+    fun getAllMovies(){
+        try{
+            viewModelScope.launch(Dispatchers.IO){
+                val response = repository.getAllSource()
+                response.let {
+                    val result = it?.body()
+                     result.let { list->
+                         _sourceList.postValue(Result.Success(list))
+                     }
+                }
+            }
+        } catch (error: Exception){
+            _sourceList.postValue(Result.Error(error))
+        }
     }
 }
+

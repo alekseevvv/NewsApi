@@ -9,3 +9,8 @@ data class SourceModel(
    val language: String,
    val country: String
 )
+
+data class SourceResponce (
+   val status: String,
+   val sources: List<SourceModel>
+)
