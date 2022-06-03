@@ -15,8 +15,8 @@ class TimeLineRecyclerViewAdapter(private val sourceList: List<ArticleModel>) :
 
     inner class RecyclerViewHolder(binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val tvDesc: TextView = binding.tvDesc
-        val tvTitle: TextView = binding.tvTitle
+        val tvDesc: TextView = binding.tvDescr
+       // val tvTitle: TextView = binding.tvTitle
         val tvLang: TextView = binding.tvSource
         val ivImg: ImageView = binding.ivImg
     }
@@ -32,7 +32,7 @@ class TimeLineRecyclerViewAdapter(private val sourceList: List<ArticleModel>) :
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val item = sourceList.get(position)
         holder.tvDesc.text = item.description
-        holder.tvTitle.text = item.title
+      //  holder.tvTitle.text = item.title
         holder.tvLang.text = item.source.name
 
     }

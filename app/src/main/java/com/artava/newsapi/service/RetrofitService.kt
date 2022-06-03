@@ -24,7 +24,7 @@ interface RetrofitService {
         @Query("apiKey")
         apiKey: String = "a7fbdcf3b5504de1b83325d455e277f6",
         @Query("country")
-        counry: String = "ru"
+        country: String = "us"
     ): Response<ArticleResponse>
 
     companion object {
