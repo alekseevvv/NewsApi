@@ -6,19 +6,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.artava.newsapi.databinding.ItemArticleBinding
-import com.artava.newsapi.databinding.ItemSourceBinding
 import com.artava.newsapi.model.ArticleModel
-import com.artava.newsapi.model.SourceModel
+import com.squareup.picasso.Picasso
 
-class TimeLineRecyclerViewAdapter(private val sourceList: List<ArticleModel>) :
+class TimeLineRecyclerViewAdapter(private val articleList: List<ArticleModel>) :
     RecyclerView.Adapter<TimeLineRecyclerViewAdapter.RecyclerViewHolder>() {
+    var onItemClick: ((ArticleModel) -> Unit)? = null
 
     inner class RecyclerViewHolder(binding: ItemArticleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvDesc: TextView = binding.tvDescr
-       // val tvTitle: TextView = binding.tvTitle
         val tvLang: TextView = binding.tvSource
         val ivImg: ImageView = binding.ivImg
+        val tvTime: TextView = binding.tvTime
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(articleList[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
@@ -30,15 +36,16 @@ class TimeLineRecyclerViewAdapter(private val sourceList: List<ArticleModel>) :
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        val item = sourceList.get(position)
+        val item = articleList[position]
         holder.tvDesc.text = item.description
-      //  holder.tvTitle.text = item.title
         holder.tvLang.text = item.source.name
+        holder.tvTime.text = item.publishedAt
+        Picasso.get().load(item.urlToImage).into(holder.ivImg)
 
     }
 
     override fun getItemCount(): Int {
-        return sourceList.size
+        return articleList.size
     }
 
 

@@ -9,6 +9,7 @@ import com.artava.newsapi.model.SourceModel
 
 class SourceRecyclerViewAdapter(private val sourceList: List<SourceModel>) :
     RecyclerView.Adapter<SourceRecyclerViewAdapter.RecyclerViewHolder>() {
+    var onItemClick: ((SourceModel) -> Unit)? = null
 
     inner class RecyclerViewHolder(binding: ItemSourceBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -16,6 +17,11 @@ class SourceRecyclerViewAdapter(private val sourceList: List<SourceModel>) :
         val tvTitle: TextView = binding.tvTitle
         val tvLang: TextView = binding.tvLang
 
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(sourceList[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {

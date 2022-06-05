@@ -16,7 +16,7 @@ import com.artava.newsapi.adapter.SourceRecyclerViewAdapter
 import com.artava.newsapi.databinding.FragmentSourceListBinding
 import com.artava.newsapi.service.Result
 import com.artava.newsapi.service.RetrofitService
-import com.artava.newsapi.viewmodel.SouceViewModelFactory
+import com.artava.newsapi.viewmodel.factory.SouceViewModelFactory
 import com.artava.newsapi.viewmodel.SourceViewModel
 
 class SourceListFragment : Fragment() {
@@ -53,7 +53,7 @@ class SourceListFragment : Fragment() {
         })
 
         viewModel.sourceList.observe(viewLifecycleOwner, Observer { result ->
-            when(result){
+            when (result) {
                 is Result.Success -> {
                     binding.progressBar.isVisible = false
                     if (result.data?.sources != null) {
